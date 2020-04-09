@@ -44,15 +44,42 @@ class _HomeState extends State<Home> {
   double euro;
 
   void _realChange(String text){
-    print(text);
+    if(text.isEmpty) {
+      _clearAll();
+      return;
+    }
+
+    double real = double.parse(text);
+    dollarController.text =(real/dollar).toStringAsFixed(2);
+    euroController.text = (real/euro).toStringAsFixed(2);
   }
 
   void _dollarChange(String text){
-    print(text);
+    if(text.isEmpty) {
+      _clearAll();
+      return;
+    }
+
+    double dollar = double.parse(text);
+    realController.text =(dollar * this.dollar).toStringAsFixed(2);
+    euroController.text = (dollar * this.dollar / euro).toStringAsFixed(2);
   }
 
   void _euroChange(String text){
-    print(text);
+    if(text.isEmpty) {
+      _clearAll();
+      return;
+    }
+    
+    double euro = double.parse(text);
+    realController.text =(euro * this.euro).toStringAsFixed(2);
+    dollarController.text =(euro * this.euro / dollar).toStringAsFixed(2);
+  }
+
+  void _clearAll(){
+    realController.text = "";
+    dollarController.text = "";
+    euroController.text = "";
   }
 
   @override
@@ -94,11 +121,11 @@ class _HomeState extends State<Home> {
                         children: <Widget>[
                           Icon(Icons.monetization_on,
                               size: 150.0, color: Colors.amber),
-                          buidTextField("Real", "R\$", realController, _realChange),
+                          buidTextField("Real", "R\$ ", realController, _realChange),
                           Divider(),
-                          buidTextField("Dollar", "US\$", dollarController, _dollarChange),
+                          buidTextField("Dollar", "US\$ ", dollarController, _dollarChange),
                           Divider(),
-                          buidTextField("Euro", "€", euroController, _euroChange),
+                          buidTextField("Euro", "€ ", euroController, _euroChange),
                         ],
                       ),
                     );
